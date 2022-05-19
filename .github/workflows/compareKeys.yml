@@ -1,0 +1,19 @@
+name: Check Keys 
+on:
+  workflow_dispatch:
+env: 
+  AK: ${{ secrets.ACCESS_KEY_ID }}
+  TEST: ${{ secrets.TEST }}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    environment: pr
+    steps:
+      - name: Compare
+        run: |
+          if [[ $AK == $TEST ]]; then
+              echo "Rotate These Keys"
+              exit 0
+          else
+              exit 1
+          fi
