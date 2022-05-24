@@ -1,0 +1,19 @@
+name: Check Keys 
+on:
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    environment: pr
+    steps:
+      - name: Compare
+        env:
+          AK: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          COMPARE: ${{ secrets.TEST }}
+        run: |
+          if [[ $AK == $COMPARE ]]; then
+              echo "Rotate These Keys"
+              exit 0
+          else
+              exit 1
+          fi
